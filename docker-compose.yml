@@ -1,0 +1,11 @@
+services:
+  nachos:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nachos:latest
+    volumes:
+      - ./code:/nachos
+    entrypoint: /bin/bash
+    stdin_open: true
+    tty: true

@@ -1,23 +1,16 @@
-# NachOS 4.0
+# NTUST NachOS 4.0 Docker
 
-**Now Compatible with 64-bit Linux Machines**
+**This is a fork of [wynn1212/NachOS](https://github.com/wynn1212/NachOS) with Docker support**
 
-This is a modified version of NachOS (Original NachOS available at https://homes.cs.washington.edu/~tom/nachos/) which has undergone various patches to make it compatible with modern Linux machines.
-
-The original readme file has been relocated to [README.Original.md](README.Original.md)
-
-In this project, only the `Halt()` system call from the original NachOS and our sample `PrintInt()` system call have been implemented. Attempting to use other unimplemented system calls will result in a core dump.
-
-As of now, this project has been tested and confirmed to work on the latest LTS version of Ubuntu Linux (22.04)
-
-*Please note that the non-LTS versions of Ubuntu (or Debian-based) have not been tested but are expected to work. However, we do not provide support for non Ubuntu LTS versions.*
+> ⚠️ This project only support x86_64 architecture machine.
 
 # Table of Contents
+
 - [Prerequisite](#Prerequisite)
-  - [For 64-bit Ubuntu Linux](#For-64-bit-Ubuntu-Linux)
-  - [For 32-bit Ubuntu Linux](#For-32-bit-Ubuntu-Linux)
+  - [Install Docker](#Install-Docker)
   - [Download Project](#Download-Project)
-  - [Install Cross-Compiler for NachOS](#Install-Cross-Compiler-for-NachOS)
+  - [Run Docker Image](#Run-Docker-Image)
+- [Start a Shell in the Docker Container](#Start-a-Shell-in-the-Docker-Container)
 - [Building NachOS](#Building-NachOS)
 - [Testing NachOS](#Testing-NachOS)
 - [Make Usage](#Make-Usage)
@@ -28,64 +21,40 @@ As of now, this project has been tested and confirmed to work on the latest LTS 
 
 # Prerequisite
 
-### For 64-bit Ubuntu Linux
+### Install Docker
 
-Enable i386 architecture first
-
-```shell
-$ sudo dpkg --add-architecture i386 
-```
-
-Preform system upgrade
-
-```shell
-$ sudo apt update; sudo apt dist-upgrade
-```
-
-Install the dependency (csh/git/compiler)
-
-```shell
-$ sudo apt install csh ed git build-essential gcc-multilib g++-multilib gdb gdb-multiarch
-```
-
-### For 32-bit Ubuntu Linux
-
-Preform system upgrade
-
-```shell
-$ sudo apt update; sudo apt dist-upgrade
-```
-
-Install the dependency (csh/git/compiler)
-
-```shell
-$ sudo apt install csh ed git build-essential gdb
-```
+[Install Docker Engine](https://docs.docker.com/engine/install/)
 
 ### Download Project
 
 Clone the project repository
 
 ```shell
-$ git clone https://github.com/wynn1212/NachOS
+git clone https://github.com/hayd1n/NachOS-Docker
 ```
 
-### Install Cross-Compiler for NachOS
+### Run Docker Image
 
-Navigate to the `NachOS` directory, then copy the cross-compiler to the system directory
+Navigate to the `NachOS` directory.
+Start the Docker container in the background.
 
 ```shell
-$ cd NachOS
-NachOS$ sudo cp -r usr /
+cd NachOS-Docker
+docker compose up -d
+```
+
+# Start a Shell in the Docker Container
+
+```shell
+docker exec -it nachos-docker-nachos-1 /bin/bash
 ```
 
 # Building NachOS
 
-Navigate to the `code` directory in `NachOS`, then run `make` to build NachOS
+Enter the shell in the container first, then run `make` to build NachOS
 
 ```shell
-NachOS$ cd code
-NachOS/code$ make
+make
 ```
 
 **Note 1:** Whenever you make modifications to the source code, it is essential to rebuild the entire NachOS system.
@@ -99,15 +68,15 @@ After a successful build, you should find the `nachos` executable in the `NachOS
 To run `test1` in NachOS, execute the following command:
 
 ```shell
-NachOS/code$ ./userprog/nachos -e ./test/test1
+./userprog/nachos -e ./test/test1
 ```
 
-*Please note that you should be inside the `NachOS/code` directory. Otherwise, you should specify the actual location accordingly.*
+_Please note that you should be inside the `NachOS/code` directory. Otherwise, you should specify the actual location accordingly._
 
 If you see this output, it indicates that you have successfully run `test1` in NachOS.
 
-```shell
-NachOS/code$ ./userprog/nachos -e ./test/test1
+```
+root@1a57f92ee0ca:/nachos# ./userprog/nachos -e ./test/test1
 Total threads number is 1
 Thread ./test/test1 is executing.
 Print integer:9
@@ -124,7 +93,6 @@ Disk I/O: reads 0, writes 0
 Console I/O: reads 0, writes 0
 Paging: faults 0
 Network I/O: packets received 0, sent 0
-NachOS/code$
 ```
 
 # Make Usage
@@ -145,8 +113,9 @@ See [documents/Adding_User_Program.md](documents/Adding_User_Program.md)
 
 # References
 
+- https://github.com/wynn1212/NachOS - NTUST modified NachOS 4.0 source code and documents.
 - https://homes.cs.washington.edu/~tom/nachos/ - Original NachOS 4.0 source code and documents.
-- [GitHub - connlabtw/NachOS2020](https://github.com/connlabtw/NachOS2020) - This repository originated as a fork and includes the `PrintInt()` system call implementation. 
+- [GitHub - connlabtw/NachOS2020](https://github.com/connlabtw/NachOS2020) - This repository originated as a fork and includes the `PrintInt()` system call implementation.
 - https://blog.csdn.net/Aloneingchild/article/details/115339992 - A guide that provides a solution for building NachOS on 64-bit Linux systems.
 - [GitHub - Yan-Hau/NachOS](https://github.com/Yan-Hau/NachOS/tree/master#readme) - Another solution for building NachOS on 64-bit Linux systems. This repository includes information about the required dependency packages for NachOS.
   - If you want to run NachOS on Docker or WSL2, you can follow the provided guide.
