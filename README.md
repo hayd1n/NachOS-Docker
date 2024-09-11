@@ -23,7 +23,7 @@
 
 ### Install Docker
 
-[Install Docker Engine](https://docs.docker.com/engine/install/)
+Install [Docker Engine](https://docs.docker.com/engine/install/) and [Compose Plugin](https://docs.docker.com/compose/install/linux/)
 
 ### Download Project
 
