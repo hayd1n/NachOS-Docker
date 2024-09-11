@@ -65,7 +65,7 @@ make
 
 ## Testing NachOS
 
-After a successful build, you should find the `nachos` executable in the `NachOS/code/userprog/` directory and your `test1` program in the `NachOS/code/test/` directory.
+After a successful build, you should find the `nachos` executable in the `/nachos/userprog/` directory and your `test1` program in the `/nachos/test/` directory.
 
 To run `test1` in NachOS, execute the following command:
 
