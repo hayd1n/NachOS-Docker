@@ -4,7 +4,7 @@
 
 > ⚠️ This project only support x86_64 architecture machine.
 
-# Table of Contents
+## Table of Contents
 
 - [Prerequisite](#Prerequisite)
   - [Install Docker](#Install-Docker)
@@ -19,7 +19,7 @@
 - [Adding User Program](#Adding-User-Program)
 - [References](#References)
 
-# Prerequisite
+## Prerequisite
 
 ### Install Docker
 
@@ -43,13 +43,13 @@ cd NachOS-Docker
 docker compose up -d
 ```
 
-# Start a Shell in the Docker Container
+## Start a Shell in the Docker Container
 
 ```shell
 docker exec -it nachos-docker-nachos-1 /bin/bash
 ```
 
-# Building NachOS
+## Building NachOS
 
 Enter the shell in the container first, then run `make` to build NachOS
 
@@ -61,7 +61,7 @@ make
 
 **Note 2:** If your modifications are limited to the test directory, you can simply execute `make` within the test directory to build your program. However, if you have made changes to system calls or other core components, it is still necessary to rebuild the complete NachOS system.
 
-# Testing NachOS
+## Testing NachOS
 
 After a successful build, you should find the `nachos` executable in the `NachOS/code/userprog/` directory and your `test1` program in the `NachOS/code/test/` directory.
 
@@ -71,7 +71,7 @@ To run `test1` in NachOS, execute the following command:
 ./userprog/nachos -e ./test/test1
 ```
 
-_Please note that you should be inside the `NachOS/code` directory. Otherwise, you should specify the actual location accordingly._
+_Please note that you should be inside the `nachos` directory. Otherwise, you should specify the actual location accordingly._
 
 If you see this output, it indicates that you have successfully run `test1` in NachOS.
 
@@ -95,23 +95,23 @@ Paging: faults 0
 Network I/O: packets received 0, sent 0
 ```
 
-# Make Usage
+## Make Usage
 
 See [documents/Make_Usage.md](documents/Make_Usage.md)
 
-# NachOS Usage
+## NachOS Usage
 
 See [documents/NachOS_Usage.md](documents/NachOS_Usage.md)
 
-# Debug Flag
+## Debug Flag
 
 See [documents/Debug_Flag.md](documents/Debug_Flag.md)
 
-# Adding User Program
+## Adding User Program
 
 See [documents/Adding_User_Program.md](documents/Adding_User_Program.md)
 
-# References
+## References
 
 - https://github.com/wynn1212/NachOS - NTUST modified NachOS 4.0 source code and documents.
 - https://homes.cs.washington.edu/~tom/nachos/ - Original NachOS 4.0 source code and documents.
