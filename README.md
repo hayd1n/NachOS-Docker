@@ -4,6 +4,8 @@
 
 > ⚠️ This project only support x86_64 architecture machine.
 
+> 💡 Now have experimental support for Apple Silicon Mac, see [this](./documents/Apple_Silicon_Mac.md).
+
 ## Table of Contents
 
 - [Prerequisite](#Prerequisite)
