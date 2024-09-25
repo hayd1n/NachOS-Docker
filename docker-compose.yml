@@ -7,6 +7,5 @@ services:
     image: nachos:latest
     volumes:
       - ./code:/nachos
-    entrypoint: /bin/bash
     stdin_open: true
     tty: true

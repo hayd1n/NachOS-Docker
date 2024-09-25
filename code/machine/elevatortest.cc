@@ -1,11 +1,11 @@
-// elevatortest.cc 
+// elevatortest.cc
 //	Driver code to test the elevator device implementation.
 //	We create a single rider thread and a single elevator thread;
 //	in practice there will be multiple riders and multiple elevators,
 //	each with its own thread.
 //
 // Copyright (c) 1996 The Regents of the University of California.
-// All rights reserved.  See copyright.h for copyright notice and limitation 
+// All rights reserved.  See copyright.h for copyright notice and limitation
 // of liability and disclaimer of warranty provisions.
 
 #include "copyright.h"
@@ -15,52 +15,46 @@
 #include "thread.h"
 
 // Data structures to control elevator device self test.
-// Definition private to this module. 
-class ElevatorInspector : public CallBackObj{
-  public:
-    ElevatorInspector();	// allocate self test data structures
-    ~ElevatorInspector();	// deallocate self test data
-    
-    void RiderTest();		// test out the elevator simulation,
-  				// by acting like a rider
-    void ControllerTest();	// test out elevator simulation, by
-    				// acting like an elevator controller
-    void CallBack();		// get notification of event
-    
-  private:
+// Definition private to this module.
+class ElevatorInspector : public CallBackObj {
+public:
+    ElevatorInspector();   // allocate self test data structures
+    ~ElevatorInspector();  // deallocate self test data
+
+    void RiderTest();       // test out the elevator simulation,
+                            // by acting like a rider
+    void ControllerTest();  // test out elevator simulation, by
+                            // acting like an elevator controller
+    void CallBack();  // get notification of event
+
+private:
     ElevatorBank *elevators;
-    Semaphore *riderWakeup;	// to synchronize rider with callbacks
-    Semaphore *controllerWakeup;// to synch controller with callbacks
-    
+    Semaphore *riderWakeup;       // to synchronize rider with callbacks
+    Semaphore *controllerWakeup;  // to synch controller with callbacks
+
     // The next two functions wait for the rider/controller
     // to be signalled.  In a real implementation there would be
     // multiple riders and multiple elevators, so some way of getting
     // each event to the right set of threads is needed.
     ElevatorEvent WaitForNextRiderEvent(int *floor, int *elevator) {
         ElevatorEvent event;
-	
-        while ((event = elevators->getNextRiderEvent(
-        				floor, elevator)) == NoEvent) {
+
+        while ( (event = elevators->getNextRiderEvent(floor, elevator)) == NoEvent ) {
             riderWakeup->P();
         }
         return event;
     }
     ElevatorEvent WaitForNextControllerEvent(int *floor, int *elevator) {
         ElevatorEvent event;
-	
-        while ((event = elevators->getNextControllerEvent(
-        				floor, elevator)) == NoEvent) {
+
+        while ( (event = elevators->getNextControllerEvent(floor, elevator)) == NoEvent ) {
             controllerWakeup->P();
         }
         return event;
     }
-
 };
 
-static void
-ControllerTest(ElevatorInspector *inspector) {
-    inspector->ControllerTest();
-}
+static void ControllerTest(ElevatorInspector *inspector) { inspector->ControllerTest(); }
 
 //----------------------------------------------------------------------
 // ElevatorSelfTest
@@ -68,11 +62,10 @@ ControllerTest(ElevatorInspector *inspector) {
 //	to act as the rider, and another to act as the controller.
 //----------------------------------------------------------------------
 
-void
-ElevatorSelfTest () {
+void ElevatorSelfTest() {
     ElevatorInspector *inspector = new ElevatorInspector();
     Thread *controller = new Thread("controller");
-    
+
     controller->Fork((VoidFunctionPtr)ControllerTest, (void *)inspector);
     inspector->RiderTest();
     delete inspector;
@@ -84,8 +77,7 @@ ElevatorSelfTest () {
 //	elevator simulation.
 //----------------------------------------------------------------------
 
-ElevatorInspector::ElevatorInspector()
-{ 
+ElevatorInspector::ElevatorInspector() {
     elevators = new ElevatorBank(1 /*numLifts*/, 2 /*numFlrs*/, this, this);
     riderWakeup = new Semaphore("rider", 0);
     controllerWakeup = new Semaphore("controller", 0);
@@ -96,23 +88,21 @@ ElevatorInspector::ElevatorInspector()
 //	Deallocate data structures for testing the elevator simulation.
 //----------------------------------------------------------------------
 
-ElevatorInspector::~ElevatorInspector()
-{ 
+ElevatorInspector::~ElevatorInspector() {
     delete elevators;
     delete riderWakeup;
     delete controllerWakeup;
 }
-        
+
 //----------------------------------------------------------------------
 // ElevatorInspector::RiderTest
 //	Behave like a rider, going from floor 0 to floor 1.
 //----------------------------------------------------------------------
 
-void
-ElevatorInspector::RiderTest () {
+void ElevatorInspector::RiderTest() {
     int floor, elevator;
     ElevatorEvent event;
-    
+
     elevators->PressButton(0, Up);
     event = WaitForNextRiderEvent(&floor, &elevator);
     ASSERT(event == DoorsOpened && floor == 0);
@@ -132,20 +122,19 @@ ElevatorInspector::RiderTest () {
 //	elevator simulation.
 //----------------------------------------------------------------------
 
-void
-ElevatorInspector::ControllerTest () {
+void ElevatorInspector::ControllerTest() {
     int floor, elevator;
     ElevatorEvent event;
 
-    // assume elevator starts on ground floor    
-    ASSERT(elevators->WhereIsElevator(0) == 0);	
+    // assume elevator starts on ground floor
+    ASSERT(elevators->WhereIsElevator(0) == 0);
     event = WaitForNextControllerEvent(&floor, &elevator);
     ASSERT(event == UpButtonPressed && floor == 0);
-    
+
     // indicate to rider that elevator is going up
-    elevators->MarkDirection(0, Up);	
+    elevators->MarkDirection(0, Up);
     elevators->OpenDoors(0);
-    
+
     // should wait a fixed amount of time for the rider to get
     // on, in case they took the stairs
     event = WaitForNextControllerEvent(&floor, &elevator);
@@ -165,8 +154,7 @@ ElevatorInspector::ControllerTest () {
 //	to sleep.
 //----------------------------------------------------------------------
 
-void
-ElevatorInspector::CallBack() {
+void ElevatorInspector::CallBack() {
     controllerWakeup->V();
     riderWakeup->V();
 }

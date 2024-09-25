@@ -20,8 +20,11 @@ coff2noff
 *.swp
 *~
 
-# VSCode related
-.vscode
+# Output file
+compile_commands.json
+
+# Clangd cache
+.cache
 
 # Tests
 halt

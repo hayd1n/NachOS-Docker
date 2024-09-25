@@ -6,10 +6,13 @@ WORKDIR /nachos
 RUN dpkg --add-architecture i386
 
 # Update and install dependencies
-RUN apt-get update; apt-get dist-upgrade -y
+RUN apt-get -y update && apt-get -y dist-upgrade
 
 # Install dependencies
-RUN apt-get install -y csh ed git build-essential gcc-multilib g++-multilib gdb gdb-multiarch
+RUN apt-get -y update && apt-get install -y csh ed git build-essential gcc-multilib g++-multilib gdb gdb-multiarch
+
+# Install tools
+RUN apt-get -y update && apt-get install -y clangd bear clang-format
 
 # Copy cross-compiler to /usr
 COPY ./usr /usr
