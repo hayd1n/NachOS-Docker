@@ -6,6 +6,8 @@
 
 > 💡 Now have experimental support for Apple Silicon Mac, see [this](./documents/Apple_Silicon_Mac.md).
 
+> 🚀 If you're looking for a complete development environment that integrates with VSCode, checkout [dev-container](https://github.com/hayd1n/NachOS-Docker/tree/dev-container) branch.
+
 ## Table of Contents
 
 - [Prerequisite](#Prerequisite)
