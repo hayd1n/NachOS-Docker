@@ -1,13 +1,13 @@
 # Desktop Services Store
 *.DS_Store
 
-# Object File 
+# Object File
 *.o
 #*.s
 swtch.s
 *.coff
 
-# Binary 
+# Binary
 nachos
 coff2noff
 
@@ -22,3 +22,10 @@ coff2noff
 
 # VSCode related
 .vscode
+
+# Tests
+halt
+shell
+matmult
+sort
+test1
