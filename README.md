@@ -173,4 +173,4 @@ See [documents/Adding_User_Program.md](documents/Adding_User_Program.md)
   - If you're interested in learning how to use gdb (GNU Debugger) with Visual Studio Code for NachOS development, there's also a guide available.
   - **Please be aware that this repository uses NachOS 4.1, which has a different source code structure compared to our NachOS 4.0. Additionally, it does not have the `PrintInt()` system call implemented, which means you'll need to implement the `PrintInt()` system call yourself if you choose to use this version.**
 
-> Made by [Hayden](https://github.com/hayd1n) with ❤️
+> Made with ❤️ by [Hayden](https://github.com/hayd1n)
